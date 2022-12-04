@@ -1,6 +1,6 @@
 {
   "name": "turinpay-plugin-for-woocommerce",
-  "version": "1.1.7",
+  "version": "1.0.0",
   "description": "TurinPay Plugins for WooCommerce delivers a simple, secure way to accept credit card payments in your WooCommerce store. Reduce payment friction and boost conversions using this free plugin!",
   "main": "Gruntfile.js",
   "repository": {

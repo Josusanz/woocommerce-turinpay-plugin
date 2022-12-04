@@ -126,7 +126,7 @@ class Turinpay_Payments extends Abstract_Payment_Gateway {
 			];
 		}
 
-		$intent_id = wp_unslash( $_POST['tpfw_payment_intent_id'] );
+		$intent_id = sanitize_text_field( $_POST['tpfw_payment_intent_id'] );
 
 		update_post_meta( $order_id, 'tpfw_payment_intent_id', $intent_id );
 

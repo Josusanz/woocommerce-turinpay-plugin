@@ -11,7 +11,6 @@ namespace TPFW\Admin;
 use TPFW\Inc\Traits\Get_Instance;
 use TPFW\Inc\Logger;
 use TPFW\Inc\Helper;
-use TPFW\Gateway\Turinpay\Webhook;
 use WC_Admin_Settings;
 
 /**
@@ -543,18 +542,6 @@ class Admin_Controller {
 				'desc'  => sprintf( __( 'Important: the webhook URL is called by Turinpay when events occur in your account, like a source becomes chargeable. %1$1sWebhook Guide%2$2s or create webhook on %3$3sturinpay dashboard%4$4s', 'turinpay-plugin-for-woocommerce' ), '<a href="https://turinlabs.gitbook.io/turinlabs/api-docs/turinpay/webhooks" target="_blank">', '</a>', '<a href="https://turinlabs.gitbook.io/turinlabs/api-docs/turinpay/webhooks" target="_blank">', '</a>' ),
 				'id'    => 'tpfw_webhook_url',
 			],
-			// 'live_webhook_secret' => [
-			// 	'name' => __( 'Live Webhook Secret', 'turinpay-plugin-for-woocommerce' ),
-			// 	'type' => 'text',
-			// 	'desc' => sprintf( __( 'The webhook secret is used to authenticate webhooks sent from Turinpay. It ensures nobody else can send you events pretending to be Turinpay. %1$1s', 'turinpay-plugin-for-woocommerce' ), '</br>' . Webhook::get_webhook_interaction_message( 'live' ) ),
-			// 	'id'   => 'tpfw_live_webhook_secret',
-			// ],
-			// 'test_webhook_secret' => [
-			// 	'name' => __( 'Test Webhook Secret', 'turinpay-plugin-for-woocommerce' ),
-			// 	'type' => 'text',
-			// 	'desc' => sprintf( __( 'The webhook secret is used to authenticate webhooks sent from Turinpay. It ensures nobody else can send you events pretending to be Turinpay. %1$1s', 'turinpay-plugin-for-woocommerce' ), '</br>' . Webhook::get_webhook_interaction_message( 'test' ) ),
-			// 	'id'   => 'tpfw_test_webhook_secret',
-			// ],
 			'debug_log'           => [
 				'name'        => __( 'Debug Log', 'turinpay-plugin-for-woocommerce' ),
 				'type'        => 'checkbox',
@@ -754,7 +741,7 @@ class Admin_Controller {
 		}
 
 		if ( isset( $_POST['error'] ) ) {
-			$error         = $_POST['error'];
+			$error         = sanitize_text_field( $_POST['error'] );
 			$error_message = $error['message'] . ' (' . $error['type'] . ')';
 			$error_message = Helper::get_localized_messages( $error['code'], $error_message );
 			Logger::error( $error_message, true );
@@ -773,13 +760,6 @@ class Admin_Controller {
 	 */
 	public function filter_settings_fields( $array = [] ) {
 		if ( 'success' !== Helper::get_setting( 'tpfw_con_status' ) && 'success' !== Helper::get_setting( 'tpfw_test_con_status' ) ) {
-			// unset( $array['test_mode'] );
-			// unset( $array['webhook_url'] );
-			// unset( $array['test_webhook_secret'] );
-			// unset( $array['live_webhook_secret'] );
-			// unset( $array['debug_log'] );
-			// unset( $array['test_conn_button'] );
-
 			$webhook_options = apply_filters(
 				'tpfw_webhook_options',
 				[

@@ -53,7 +53,7 @@ class Webhook extends Abstract_Payment_Gateway {
 	 * @return void
 	 */
 	public function webhook_listener() {
-		update_option( 'tpfw_turinpay_response_webhook', $_POST );
+		//update_option( 'tpfw_turinpay_response_webhook', $_POST );
 	}
 
 }
